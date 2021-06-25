@@ -200,4 +200,26 @@ class SolitareCardView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : SolitareCardView) {
+
+        var animator : Animator = Animator(view)
+        var solitareCard : SolitareCard = SolitareCard(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            solitareCard.draw(canvas, paint)
+            animator.animate {
+                solitareCard.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            solitareCard.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
