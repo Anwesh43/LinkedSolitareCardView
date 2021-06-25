@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.RectF
 import android.app.Activity
 import android.content.Context
+import androidx.constraintlayout.widget.ConstraintSet
 
 val colors : Array<Int> = arrayOf(
     "#f44336",
@@ -71,4 +72,20 @@ fun Canvas.drawSCNode(i : Int, scale : Float, paint : Paint) {
     paint.strokeWidth = Math.min(w, h) / strokeFactor
     paint.strokeCap = Paint.Cap.ROUND
     drawSolitareCard(scale, w, h, paint)
+}
+
+class SolitareCardView(ctx : Context) : View(ctx) {
+
+    override fun onDraw(canvas : Canvas) {
+
+    }
+
+    override fun onTouchEvent(event : MotionEvent) : Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+
+            }
+        }
+        return true
+    }
 }
