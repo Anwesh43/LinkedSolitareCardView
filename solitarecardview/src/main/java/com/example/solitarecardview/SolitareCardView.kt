@@ -225,4 +225,11 @@ class SolitareCardView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+        fun create(activity: Activity) {
+            val view : SolitareCardView = SolitareCardView(activity)
+            activity.setContentView(view)
+        }
+    }
 }
