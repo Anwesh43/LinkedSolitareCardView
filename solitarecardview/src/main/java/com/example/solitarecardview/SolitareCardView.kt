@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.RectF
 import android.app.Activity
 import android.content.Context
-import androidx.constraintlayout.widget.ConstraintSet
 
 val colors : Array<Int> = arrayOf(
     "#f44336",
@@ -19,14 +18,14 @@ val colors : Array<Int> = arrayOf(
 ).map {
     Color.parseColor(it)
 }.toTypedArray()
-val backColor : Int = Color.parseColor("#BDBDBD")
+val backColor : Int = Color.parseColor("#212121")
 val strokeFactor : Float = 90f
 val cardWFactor : Float = 8.9f
 val cardHFactor : Float = 3.9f
 val delay : Long = 20
 val parts : Int = 3
 val scGap : Float = 0.02f / parts
-val cards : Int = 3
+val cards : Int = 5
 
 
 fun Int.inverse() : Float = 1f / this
@@ -36,20 +35,24 @@ fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale
 fun Canvas.drawSolitareCard(scale : Float, w : Float, h : Float, paint : Paint) {
     val cardW : Float = Math.min(w, h) / cardWFactor
     val cardH : Float = Math.min(w, h) / cardHFactor
-    val sc1 : Float = scale.divideScale(0, parts)
-    val sc2 : Float = scale.divideScale(1, parts)
-    val sc3 : Float = scale.divideScale(2, parts)
-    val gap : Float = cardH / cards
+    val sc1 : Float = scale.divideScale(0, parts + 1)
+    val sc2 : Float = scale.divideScale(1, parts + 1)
+    val sc3 : Float = scale.divideScale(3, parts + 1)
+    val gap : Float = cardH / (3 *cards)
+    val color : Int = paint.color
     save()
+    translate(w / 2, h / 2)
     for (i in 0..(cards - 1)) {
         save()
-        translate(0f, -gap * (6 - i) * sc2 - (h / 2 + cardH) * sc3)
+        translate(0f, -gap * (cards - i) * sc2 - (h / 2 + cardH / 2) * sc3.divideScale(i, cards))
+        paint.color = Color.parseColor("#bdbdbd")
         drawLine(
-            -cardW / 2,
+            -cardW / 2 + paint.strokeWidth / 2,
             -cardH / 2,
-            -cardW / 2 + cardW * sc1,
+            -cardW / 2 + (cardW - paint.strokeWidth / 2) * sc1,
             -cardH / 2, paint
         )
+        paint.color = color
         drawRect(
             RectF(
                 -cardW / 2,
